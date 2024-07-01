@@ -1,6 +1,6 @@
 from shared.utils.service_result import ServiceResult
 from modules.ingredients.schemas.dtos import RegisterIngredient
-from modules.ingredients.repositories import IngredientRepository
+from modules.ingredients.repositories.ingredient_repository import IngredientRepository
 
 class RegisterIngredientService:
     # def __init__(self, db: Database):
