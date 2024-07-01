@@ -14,8 +14,11 @@ from sqlalchemy import create_engine, engine_from_config, pool
 
 # we're appending the app directory to our path here so that we can import config easily
 # sys.path.append(str(pathlib.Path(__file__).resolve().parents[1]))
-from shared.core.db.db_base import metadata
+# from shared.core.db.db_base import metadata
 from shared.core.config import DATABASE_URL, POSTGRES_DB  # noqa
+# from ..models import Base
+from models.base import Base, metadata
+import models
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
@@ -33,7 +36,8 @@ config.set_main_option("sqlalchemy.url", str(DATABASE_URL))
 # from myapp import mymodel
 # target_metadata = mymodel.Base.metadata
 
-target_metadata = None
+# target_metadata = [Base.metadata]
+target_metadata = metadata
 
 # other values from the config, defined by the needs of env.py,
 # can be acquired:
@@ -75,7 +79,7 @@ def run_migrations_online() -> None:
         )
 
     with connectable.connect() as connection:
-        alembic.context.configure(connection=connection, target_metadata=None)
+        alembic.context.configure(connection=connection, target_metadata=target_metadata)
         with alembic.context.begin_transaction():
             alembic.context.run_migrations()
 
