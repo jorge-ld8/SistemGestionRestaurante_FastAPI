@@ -51,3 +51,6 @@ traefik-public-certificates
 
 # archivos temporales
 temp_files/
+
+# Ignore the virtual environment directory in the backend folder
+backend/venv/
