@@ -16,7 +16,7 @@ def update_chef_service():
     return UpdateChefService(repository)
 
 
-@router.put("/{chef_id}", status_code=status.HTTP_200_OK)
+@router.put("/{chef_id}", status_code=status.HTTP_200_OK, name="chefs:update-chef")
 async def update_chef(
     chef_id: int,
     chef: UpdateChef = Body(..., embed=True),

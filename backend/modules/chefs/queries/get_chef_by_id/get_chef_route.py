@@ -15,7 +15,7 @@ def get_chef_by_id_service():
     return GetChefService(repository)
 
 
-@router.get("/{chef_id}", status_code=status.HTTP_200_OK)
+@router.get("/{chef_id}", status_code=status.HTTP_200_OK, name="chefs:get-chef-by-id")
 async def get_chef_by_id(
     chef_id: int,
     service: GetChefService = Depends(get_chef_by_id_service)

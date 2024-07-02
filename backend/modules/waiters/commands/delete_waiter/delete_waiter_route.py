@@ -15,7 +15,7 @@ def delete_waiter_service():
     return DeleteWaiterService(repository)
 
 
-@router.delete("/{waiter_id}", status_code=status.HTTP_200_OK)
+@router.delete("/{waiter_id}", status_code=status.HTTP_200_OK, name="waiters:delete-waiter")
 async def delete_waiter(
     waiter_id: int,
     service: DeleteWaiterService = Depends(delete_waiter_service)

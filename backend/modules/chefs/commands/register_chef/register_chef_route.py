@@ -17,7 +17,7 @@ def register_chef_service():
     return RegisterChefService(repository)
 
 
-@router.post("/", status_code=status.HTTP_201_CREATED)
+@router.post("/", status_code=status.HTTP_201_CREATED, name="chefs:register-chef")
 async def register_chef(
     chef: RegisterChef = Body(..., embed=True), 
     service: RegisterChefService = Depends(register_chef_service)

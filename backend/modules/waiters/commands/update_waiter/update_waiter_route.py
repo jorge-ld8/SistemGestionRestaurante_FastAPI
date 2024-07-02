@@ -16,7 +16,7 @@ def update_waiter_service():
     return UpdateWaiterService(repository)
 
 
-@router.put("/{waiter_id}", status_code=status.HTTP_200_OK)
+@router.put("/{waiter_id}", status_code=status.HTTP_200_OK, name="waiters:update-waiter")
 async def update_waiter(
     waiter_id: int,
     waiter: UpdateWaiter = Body(..., embed=True),

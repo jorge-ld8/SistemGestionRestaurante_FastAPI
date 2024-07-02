@@ -15,7 +15,7 @@ def delete_chef_service():
     return DeleteChefService(repository)
 
 
-@router.delete("/{chef_id}", status_code=status.HTTP_200_OK)
+@router.delete("/{chef_id}", status_code=status.HTTP_200_OK, name="chefs:delete-chef")
 async def delete_chef(
     chef_id: int,
     service: DeleteChefService = Depends(delete_chef_service)

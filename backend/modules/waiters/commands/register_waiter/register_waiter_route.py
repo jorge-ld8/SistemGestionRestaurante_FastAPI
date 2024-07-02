@@ -17,7 +17,7 @@ def register_waiter_service():
     return RegisterWaiterService(repository)
 
 
-@router.post("/", status_code=status.HTTP_201_CREATED)
+@router.post("/", status_code=status.HTTP_201_CREATED, name="waiters:register-waiter")
 async def register_waiter(
     waiter: RegisterWaiter = Body(..., embed=True), 
     service: RegisterWaiterService = Depends(register_waiter_service)

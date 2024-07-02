@@ -15,7 +15,7 @@ def get_waiter_by_id_service():
     return GetWaiterService(repository)
 
 
-@router.get("/{waiter_id}", status_code=status.HTTP_200_OK)
+@router.get("/{waiter_id}", status_code=status.HTTP_200_OK, name="waiters:get-waiter-by-id")
 async def get_waiter_by_id(
     waiter_id: int,
     service: GetWaiterService = Depends(get_waiter_by_id_service)
