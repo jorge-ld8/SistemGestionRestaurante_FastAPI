@@ -1,4 +1,5 @@
 from fastapi import APIRouter, Body, Depends
+from starlette import status
 
 from modules.ingredients.repositories.ingredient_repository import IngredientRepository
 from modules.ingredients.schemas.dtos import UpdateIngredient
@@ -15,7 +16,7 @@ def update_ingredient_service():
     repository = IngredientRepository(db)
     return UpdateIngredientService(repository)
 
-@router.put("/{ingredient_id}", status_code=200)
+@router.put("/{ingredient_id}", status_code=status.HTTP_200_OK, name = "ingredients:update_ingredient")
 async def update_ingredient(
     ingredient_id: int, 
     ingredient: UpdateIngredient = Body(..., embed=True), 

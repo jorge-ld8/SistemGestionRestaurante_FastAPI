@@ -1,4 +1,5 @@
-from fastapi import APIRouter, Body, Depends
+from fastapi import APIRouter, Depends
+from starlette import status
 
 from modules.ingredients.repositories.ingredient_repository import IngredientRepository
 from modules.ingredients.schemas.dtos import UpdateIngredient
@@ -15,7 +16,7 @@ def get_ingrediente_service():
     repository = IngredientRepository(db)
     return GetIngredientByIdService(repository)
 
-@router.get("/{ingredient_id}", status_code=200)
+@router.get("/{ingredient_id}", status_code=status.HTTP_200_OK, name = "ingredients:get_ingredient_by_id")
 async def get_ingredient_by_id(
     ingredient_id: int, 
     service: GetIngredientByIdService = Depends(get_ingrediente_service)

@@ -26,7 +26,7 @@ class UpdateIngredientService:
             new_ingredient = Ingredient(
                 id=old_ingredient.id,
                 name=dto.name if dto.name is not None else old_ingredient.name,
-                stock=dto.stock if dto.stock is not None else old_ingredient.stock,
+                stock=old_ingredient.stock,#No se actualiza el stock
                 unit=dto.unit if dto.unit is not None else old_ingredient.unit,
                 description=dto.description if dto.description is not None else old_ingredient.description
             )

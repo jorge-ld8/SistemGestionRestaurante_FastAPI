@@ -1,4 +1,5 @@
 from fastapi import APIRouter, Depends
+from starlette import status
 
 from modules.ingredients.repositories.ingredient_repository import IngredientRepository
 from modules.ingredients.commands.delete_ingredient.delete_ingredient_service import DeleteIngredientService
@@ -14,7 +15,7 @@ def delete_ingredient_service():
     repository = IngredientRepository(db)
     return DeleteIngredientService(repository)
 
-@router.delete("/{ingredient_id}", status_code=200)
+@router.delete("/{ingredient_id}", status_code=status.HTTP_200_OK, name = "ingredients:delete_ingredient")
 async def delete_ingredient(
     ingredient_id: int, 
     service: DeleteIngredientService = Depends(delete_ingredient_service)
