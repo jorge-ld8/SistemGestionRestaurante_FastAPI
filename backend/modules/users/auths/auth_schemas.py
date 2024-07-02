@@ -11,9 +11,9 @@ class JWTMeta(BaseSchema):
     iss: str = "ucab.edu.ve"
     aud: str = JWT_AUDIENCE
     iat: float = datetime.timestamp(datetime.utcnow())
-    exp: float = datetime.timestamp(
-        datetime.utcnow() + timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
-    )
+    # exp: float = datetime.timestamp(
+    #     datetime.utcnow() + timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
+    # )
 
 
 class JWTCreds(BaseSchema):
