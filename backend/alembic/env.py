@@ -79,7 +79,7 @@ def run_migrations_online() -> None:
         )
 
     with connectable.connect() as connection:
-        alembic.context.configure(connection=connection, target_metadata=target_metadata)
+        alembic.context.configure(connection=connection, target_metadata=target_metadata, compare_type=True)
         with alembic.context.begin_transaction():
             alembic.context.run_migrations()
 
@@ -112,6 +112,7 @@ def run_migrations_offline() -> None:
         target_metadata=target_metadata,
         literal_binds=True,
         dialect_opts={"paramstyle": "named"},
+        compare_type=True
     )
 
     with alembic.context.begin_transaction():

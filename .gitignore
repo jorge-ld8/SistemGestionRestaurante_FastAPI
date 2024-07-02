@@ -54,3 +54,6 @@ temp_files/
 
 # Ignore the virtual environment directory in the backend folder
 backend/venv/
+
+# ignore migrations
+**/alembic/versions
