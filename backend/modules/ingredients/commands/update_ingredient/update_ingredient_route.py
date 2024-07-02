@@ -4,9 +4,9 @@ from modules.ingredients.repositories.ingredient_repository import IngredientRep
 from modules.ingredients.schemas.dtos import UpdateIngredient
 from modules.ingredients.commands.update_ingredient.update_ingredient_service import UpdateIngredientService
 from shared.core.db.db_connection import get_db
-from database import Session, Base
+from database import Session
 
-from shared.utils.service_result import ServiceResult, handle_result
+from shared.utils.service_result import handle_result
 
 router = APIRouter()
 

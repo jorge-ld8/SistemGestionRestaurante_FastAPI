@@ -79,3 +79,22 @@ class IngredientRepository():
             self.db.rollback()
             return ServiceResult(AppExceptionCase(500, e))
         
+    async def delete_ingredient(self, ingredient_id: int):
+        try:
+            db_ingredient = self.db.query(IngredientModel).filter(
+                (IngredientModel.ingredient_id == ingredient_id) &
+                (IngredientModel.is_deleted == False)
+                ).first()
+
+            if db_ingredient is None:
+                return ServiceResult(AppExceptionCase(404, "The ingredient does not exist"))
+                
+            db_ingredient.is_deleted = True
+            self.db.commit()
+            self.db.refresh(db_ingredient)
+            return ServiceResult("The ingredient have been deleted!!")
+        
+        except Exception as e:
+            print(f"An error occurred: {e}")
+            self.db.rollback()
+            return ServiceResult(AppExceptionCase(500, e))
