@@ -5,7 +5,7 @@ from modules.ingredients.schemas.domain import Ingredient
 
 class PlateIngredient(BaseModel):
     ingredient: Ingredient
-    quantity: float
+    quantity: float = Field(gt=0)
 
 class Plate(BaseModel):
     id: int

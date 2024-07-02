@@ -18,3 +18,6 @@ class RegisterPlate(BaseModel):
 class UpdatePlate(BaseModel):
     name: Optional[str] = None
     description: Optional[str] = None
+
+class AdjustIngredientQuantity(BaseModel):
+    quantity: float
