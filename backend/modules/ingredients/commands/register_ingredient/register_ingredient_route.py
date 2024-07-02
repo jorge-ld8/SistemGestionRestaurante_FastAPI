@@ -1,5 +1,4 @@
 from fastapi import APIRouter, Body, Depends
-
 from modules.ingredients.repositories.ingredient_repository import IngredientRepository
 from modules.ingredients.schemas.dtos import RegisterIngredient
 from modules.ingredients.commands.register_ingredient.register_ingredient_service import RegisterIngredientService

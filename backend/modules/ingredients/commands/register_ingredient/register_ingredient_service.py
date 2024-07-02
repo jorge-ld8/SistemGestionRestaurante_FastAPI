@@ -1,9 +1,8 @@
-
-from shared.utils.service_result import ServiceResult, handle_result
 from modules.ingredients.schemas.dtos import RegisterIngredient
 from modules.ingredients.schemas.domain import Ingredient
 from modules.ingredients.repositories.ingredient_repository import IngredientRepository
 from shared.utils.app_exceptions import AppExceptionCase
+from shared.utils.service_result import handle_result, ServiceResult
 
 
 class RegisterIngredientService:
@@ -13,9 +12,6 @@ class RegisterIngredientService:
     
     async def register_ingredient(self, ingredient: RegisterIngredient) -> ServiceResult:
         try:
-
-            
-
             newIngredient = Ingredient(
                 name=ingredient.name,
                 stock=ingredient.stock,

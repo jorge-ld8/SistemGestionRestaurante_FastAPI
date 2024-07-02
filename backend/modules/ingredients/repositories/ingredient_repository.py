@@ -1,5 +1,4 @@
 from sqlalchemy.orm import Session
-
 from shared.utils.service_result import ServiceResult
 from shared.utils.app_exceptions import AppExceptionCase
 from modules.ingredients.schemas.domain import Ingredient
