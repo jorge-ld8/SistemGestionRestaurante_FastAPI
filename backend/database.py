@@ -4,7 +4,7 @@ from dotenv import load_dotenv
 from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
-from backend.shared.core.config import DATABASE_URL
+# from backend.shared.core.config import DATABASE_URL
 
 # from backend.shared.core.config import DATABASE_URL
 
@@ -13,7 +13,7 @@ load_dotenv()
 
 # Create an engine
 # engine = create_engine(os.getenv("DATABASE_URL"))
-engine = create_engine("postgresql://postgres:postgres@localhost:5432/postgres")
+engine = create_engine("postgresql://postgres_user:postgres_password@db:5432/postgres_db")
 
 # Create all tables
 # Base.metadata.create_all(engine)

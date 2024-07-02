@@ -5,11 +5,12 @@ class IngredientBase(BaseModel):
     name: Optional[str] = None
     stock: Optional[float] = None
     description: Optional[str] = None
+    unit: Optional[str] = None
 
 class RegisterIngredient(IngredientBase):
     name: str
     stock: float
-    description: str
+    unit: str
 
 class UpdateIngredient(IngredientBase):
     pass

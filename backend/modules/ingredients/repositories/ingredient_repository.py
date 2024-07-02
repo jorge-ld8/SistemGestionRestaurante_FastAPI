@@ -1,21 +1,31 @@
+from sqlalchemy.orm import Session
+
+from shared.utils.service_result import ServiceResult
+from shared.utils.app_exceptions import AppExceptionCase
+from modules.ingredients.schemas.domain import Ingredient
+from models.ingredient import Ingredient as IngredientModel
 
 
 class IngredientRepository():
     
-    # def __init__(self, db):
-    #     self.db = db
+    def __init__(self, db: Session):
+        self.db = db
 
-    # def get_ingredients(self):
-    #     return self.db.get_ingredients()
+    async def register_ingredient(self, ingredient: Ingredient) -> ServiceResult:
+        try:
+            db_ingredient = IngredientModel(
+                name=ingredient.name, 
+                stock=ingredient.stock, 
+                unit=ingredient.unit, 
+                description=ingredient.description
+            )
 
-    # def get_ingredient(self, ingredient_id):
-    #     return self.db.get_ingredient(ingredient_id)
-
-    def register_ingredient(self):
-        print ("Registering ingredient")
-
-    # def update_ingredient(self, ingredient_id, ingredient):
-    #     return self.db.update_ingredient(ingredient_id, ingredient)
-
-    # def delete_ingredient(self, ingredient_id):
-    #     return self.db.delete_ingredient(ingredient_id)
+            self.db.add(db_ingredient)
+            self.db.commit()
+            self.db.refresh(db_ingredient)
+            return ServiceResult("The ingredient have been registered!!")
+        
+        except Exception as e:
+            print(f"An error occurred: {e}")
+            self.db.rollback()
+            return ServiceResult(AppExceptionCase(500, e))
