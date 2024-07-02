@@ -1,4 +1,5 @@
 from fastapi import APIRouter, Body, Depends
+from starlette import status
 
 from modules.ingredients.repositories.ingredient_repository import IngredientRepository
 from modules.ingredients.schemas.dtos import RegisterIngredient
@@ -15,7 +16,7 @@ def register_ingredient_service():
     repository = IngredientRepository(db)
     return RegisterIngredientService(repository)
 
-@router.post("/", status_code=201)
+@router.post("/", status_code=status.HTTP_201_CREATED, name = "ingredients:register_ingredient")
 async def register_ingredient(
     ingredient: RegisterIngredient = Body(..., embed=True), 
     service: RegisterIngredientService = Depends(register_ingredient_service)
