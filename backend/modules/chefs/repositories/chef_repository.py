@@ -31,9 +31,15 @@ class ChefRepository:
 
     async def get_chef_by_id(self, chef_id: int) -> ServiceResult:
         try:
-            chef: Chef = self.db.query(ChefModel).filter(and_(ChefModel.chef_id == chef_id,
+            chef: ChefModel = self.db.query(ChefModel).filter(and_(ChefModel.chef_id == chef_id,
                                                               ChefModel.is_deleted == False)).one_or_none()
-            return ServiceResult(chef)
+            returned_chef = Chef(
+                chef_id=chef_id,
+                name=chef.name,
+                last_name=chef.last_name
+            )
+
+            return ServiceResult(returned_chef)
 
         except Exception as e:
             print(f"An error occurred: {e}")
@@ -41,8 +47,8 @@ class ChefRepository:
 
     async def update_chef(self, chef: Chef) -> ServiceResult:
         try:
-            db_chef: Chef = self.db.query(ChefModel).filter(
-                ChefModel.chef_id == chef.chef_id and not ChefModel.is_deleted).one_or_none()
+            db_chef: Chef = self.db.query(ChefModel).filter(and_(ChefModel.chef_id == chef.chef_id,
+                                                                 ChefModel.is_deleted == False)).one_or_none()
 
             if db_chef is None:
                 return ServiceResult(AppExceptionCase(status.HTTP_404_NOT_FOUND, "Chef does not exist"))

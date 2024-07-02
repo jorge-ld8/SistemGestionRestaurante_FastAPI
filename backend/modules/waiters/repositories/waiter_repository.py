@@ -31,9 +31,16 @@ class WaiterRepository:
 
     async def get_waiter_by_id(self, waiter_id: int) -> ServiceResult:
         try:
-            waiter: Waiter = self.db.query(WaiterModel).filter(and_(WaiterModel.waiter_id == waiter_id,
+            waiter: WaiterModel = self.db.query(WaiterModel).filter(and_(WaiterModel.waiter_id == waiter_id,
                                                                     WaiterModel.is_deleted == False)).one_or_none()
-            return ServiceResult(waiter)
+
+            returned_waiter = Waiter(
+                waiter_id=waiter.id,
+                name=waiter.name,
+                last_name=waiter.last_name
+            )
+
+            return ServiceResult(returned_waiter)
 
         except Exception as e:
             print(f"An error occurred: {e}")
@@ -41,8 +48,8 @@ class WaiterRepository:
 
     async def update_waiter(self, waiter: Waiter) -> ServiceResult:
         try:
-            db_waiter: Waiter = self.db.query(WaiterModel).filter(
-                WaiterModel.waiter_id == waiter.waiter_id and not WaiterModel.is_deleted).one_or_none()
+            db_waiter: Waiter = self.db.query(WaiterModel).filter(and_(WaiterModel.waiter_id == waiter.id,
+                                                                       WaiterModel.is_deleted == False)).one_or_none()
 
             if db_waiter is None:
                 return ServiceResult(AppExceptionCase(status.HTTP_404_NOT_FOUND, "Waiter does not exist"))
