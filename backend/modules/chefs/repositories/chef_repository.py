@@ -1,3 +1,4 @@
+from sqlalchemy import and_
 from sqlalchemy.orm import Session
 from starlette import status
 from shared.utils.service_result import ServiceResult, handle_result
@@ -30,9 +31,8 @@ class ChefRepository:
 
     async def get_chef_by_id(self, chef_id: int) -> ServiceResult:
         try:
-            chef: Chef = self.db.query(ChefModel).filter(
-                (ChefModel.chef_id == chef_id) &
-                (not ChefModel.is_deleted)).one_or_none()
+            chef: Chef = self.db.query(ChefModel).filter(and_(ChefModel.chef_id == chef_id,
+                                                              ChefModel.is_deleted == False)).one_or_none()
             return ServiceResult(chef)
 
         except Exception as e:
