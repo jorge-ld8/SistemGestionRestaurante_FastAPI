@@ -18,8 +18,8 @@ Esta aplicación permite a los usuarios gestionar las operaciones diarias de un 
 2. Modificar el .env.template y quitarle el template (debe quedar como .env)
 3. Build de las imagenes del docker compose con `docker compose build`
 4. Correr el docker compose `docker compose up`
-5. Generar la migración con `alembic revision --autogenerate -m "migración inicial"`
-6. Correr la migración con `alembic upgrade head`
+5. Generar la migración. Para esto hay que ejecutar primero `cd backend` y posteriormente `alembic revision --autogenerate -m "migración inicial"`
+6. Correr la migración con `alembic upgrade head` (dentro del mismo directorio)
 
 
 > 💡 Se recomienda utilizar PgAdmin para conectarse con la Base de Datos
