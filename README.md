@@ -1,29 +1,37 @@
-# README #
+# 🍝 Proyecto de Gestión de Restaurantes con FastAPI 🍝
 
-This README would normally document whatever steps are necessary to get your application up and running.
+Este proyecto es una aplicación de gestión de restaurantes construida con FastAPI. Este README proporcionará los pasos necesarios para configurar y ejecutar la aplicación.
 
-### What is this repository for? ###
+## Descripción
 
-* Quick summary
-* Version
-* [Learn Markdown](https://bitbucket.org/tutorials/markdowndemo)
+Esta aplicación permite a los usuarios gestionar las operaciones diarias de un restaurante, incluyendo la gestión de menús, pedidos, inventario y personal.
 
-### How do I get set up? ###
+## Requisitos
 
-* Summary of set up
-* Configuration
-* Dependencies
-* Database configuration
-* How to run tests
-* Deployment instructions
+- Python 3.8+
+- Docker 26+
 
-### Contribution guidelines ###
 
-* Writing tests
-* Code review
-* Other guidelines
+## Configuración del entorno
 
-### Who do I talk to? ###
+1. Clone este repositorio con `git clone https://github.com/jorge-ld8/SistemGestionRestaurante_FastAPI.git`
+2. Modificar el .env.template y quitarle el template (debe quedar como .env)
+3. Build de las imagenes del docker compose con `docker compose build`
+4. Correr el docker compose `docker compose up`
+5. Generar la migración con `alembic revision --autogenerate -m "migración inicial"`
+6. Correr la migración con `alembic upgrade head`
 
-* Repo owner or admin
-* Other community or team contact
+
+> 💡 Se recomienda utilizar PgAdmin para conectarse con la Base de Datos
+
+## Uso
+
+Una vez que el servidor esté en funcionamiento, puede interactuar con la API a través de `http://0.0.0.0:8000/api/v1`.
+
+## Swagger
+
+Una vez que el servidor esté en funcionamiento, puede interactuar con la documentación de los endpoints a través de `http://0.0.0.0:8000/docs`.
+
+## Contacto
+
+Si tiene alguna pregunta o problema, por favor abra un issue en este repositorio.
