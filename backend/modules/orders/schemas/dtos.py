@@ -3,7 +3,7 @@ from pydantic import BaseModel
 
 
 class Plate(BaseModel):
-    plate_id: int
+    plate_menu_id: int
     quantity: int
 
 

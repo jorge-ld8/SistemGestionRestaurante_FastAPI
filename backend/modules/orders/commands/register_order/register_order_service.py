@@ -49,19 +49,15 @@ class RegisterOrderService:
             order_details_list: List[OrderDetail] = []
             total = 0
             for plate in order.plates:
-                print(plate)
                 # TODO: plate_menu = self.plate_repo.get_latest_plate_menu(plate.plate_id) # {id, price}
                 plate_menu_price = 1
                 total += plate_menu_price * plate.quantity
                 order_details_list.append(
                     OrderDetail(
                         quantity=plate.quantity,
-                        plate_id=plate.plate_id,
-                        # TODO: plate_menu_id=plate_menu.id
-                        plate_menu_id=1
+                        plate_menu_id=plate.plate_menu_id,
                     )
                 )
-            print(order_details_list)
 
             # Create new order
             new_order: Order = Order(

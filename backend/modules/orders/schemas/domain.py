@@ -6,7 +6,6 @@ from datetime import datetime
 
 class OrderDetail(BaseModel):
     quantity: int
-    plate_id: int
     plate_menu_id: int
 
 

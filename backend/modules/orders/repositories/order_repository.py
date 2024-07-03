@@ -28,15 +28,11 @@ class OrderRepository:
             self.db.commit()
 
             for order_detail in order.order_details:
-                print(order_detail)
                 db_order_detail = OrderDetailModel(
                     quantity=order_detail.quantity,
                     order_id=db_order.order_id,
                     plates_menu_id=order_detail.plate_menu_id
                 )
-                print(f'quantity: {order_detail.quantity}')
-                print(f'plates_menu_id: {order_detail.plate_menu_id}')
-                print(f'order_id: {db_order.order_id}')
                 self.db.add(db_order_detail)
 
             self.db.commit()
