@@ -1,15 +1,25 @@
 from typing import Optional, List
 from pydantic import BaseModel, Field
-from sqlalchemy import DateTime
+from modules.orders.schemas.dtos import Plate
+from datetime import datetime
 
-from backend.modules.orders.schemas.dtos import Plate
+
+class OrderDetail(BaseModel):
+    quantity: int
+    plate_id: int
+    plate_menu_id: int
 
 
 class Order(BaseModel):
-    plates: List[Plate]
-    user_id: int = Field()
-    chef_id: int = Field()
-    waiter_id: int = Field()
-    # datetime: DateTime = Field()
-    # status: str = Field()
-    total: str = Field()
+    order_id: int
+    user_id: int
+    chef_id: int
+    waiter_id: int
+    datetime: datetime
+    status: str = Field(regex="^(preparing|fulfilled|cancelled)$")
+    total: float = Field(gt=0)
+    order_details: List[OrderDetail]
+
+
+
+

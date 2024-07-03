@@ -8,7 +8,10 @@ class Plate(BaseModel):
 
 
 class OrderBase(BaseModel):
-    pass
+    plates: Optional[List[Plate]] = []
+    user_id: Optional[int] = None
+    chef_id: Optional[int] = None
+    waiter_id: Optional[int] = None
 
 
 class RegisterOrder(OrderBase):
@@ -19,4 +22,4 @@ class RegisterOrder(OrderBase):
 
 
 class UpdateOrder(OrderBase):
-    pass
+    status: str
