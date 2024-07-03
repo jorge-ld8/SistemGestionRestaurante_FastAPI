@@ -46,7 +46,9 @@ class UserRepository:
                                  name=user.name,
                                  last_name=user.last_name,
                                  user_name=user.user_name,
-                                 role=user.role)
+                                 role=user.role,
+                                 password=user.password
+                                 )
 
             return ServiceResult(returned_user)
 

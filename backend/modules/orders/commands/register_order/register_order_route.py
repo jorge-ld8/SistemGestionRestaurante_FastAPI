@@ -11,6 +11,9 @@ from modules.users.repositories.user_repository import UserRepository
 from modules.waiters.repositories.waiter_repository import WaiterRepository
 from modules.chefs.repositories.chef_repository import ChefRepository
 from modules.menus.repositories.write_model.menu_wm_repository import MenuWriteModelRepository
+from modules.plates.repositories.write_model.plate_wm_repository import PlateWriteModelRepository
+
+from modules.ingredients.repositories.ingredient_repository import IngredientRepository
 
 router = APIRouter()
 
@@ -22,7 +25,9 @@ def register_order_service():
     waiter_repo = WaiterRepository(db)
     chef_repo = ChefRepository(db)
     menu_repo = MenuWriteModelRepository(db)
-    return RegisterOrderService(order_repo, user_repo, waiter_repo, chef_repo, menu_repo)
+    plate_repo = PlateWriteModelRepository(db)
+    ingredient_repo = IngredientRepository(db)
+    return RegisterOrderService(order_repo, user_repo, waiter_repo, chef_repo, menu_repo, plate_repo, ingredient_repo)
 
 
 @router.post("/", status_code=status.HTTP_201_CREATED, name="orders:register-order")
