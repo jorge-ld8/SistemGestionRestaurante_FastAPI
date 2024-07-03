@@ -21,6 +21,7 @@ class AddPlateToMenuService:
                     return ServiceResult(AppExceptionCase(404, "The plate does not exist"))
                 
                 plate_menu = PlateMenu(
+                     id=0,
                     plate=plate,
                     unit_price=dto.unit_price,
                 )

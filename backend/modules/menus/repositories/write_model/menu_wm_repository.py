@@ -1,10 +1,12 @@
-from sqlalchemy.orm import Session
+from sqlalchemy.orm import Session, joinedload, load_only
 
 from shared.utils.service_result import ServiceResult
 from shared.utils.app_exceptions import AppExceptionCase
 from modules.menus.schemas.domain import Menu, PlateMenu
+from modules.menus.schemas.domain import Plate
 from models.menu import Menu as MenuModel
 from models.plate_menu import PlatesMenu as PlateMenuModel
+from models.plate import Plate as PlateModel
 
 class MenuWriteModelRepository():
 
@@ -131,4 +133,32 @@ class MenuWriteModelRepository():
         except Exception as e:
             print(f"An error occurred: {e}")
             self.db.rollback()
+            return ServiceResult(AppExceptionCase(500, e))
+    
+    async def get_plate_menu_by_id(self, plate_menu_id: int) -> ServiceResult:
+
+        try:
+
+            db_plate_menu = (
+            self.db.query(PlateMenuModel)
+            .options(
+                joinedload(PlateMenuModel.plate)
+                .load_only(PlateModel.plate_id, PlateModel.name)
+            )
+            .filter(PlateMenuModel.plate_menu_id == plate_menu_id)
+            .one()
+            )
+            
+            if db_plate_menu is None:
+                return ServiceResult(None)
+            
+            plate_menu = PlateMenu(
+                id=db_plate_menu.plate_menu_id,
+                plate = Plate(id=db_plate_menu.plate_id, name= db_plate_menu.plate.name),
+                unit_price=db_plate_menu.unit_price
+            )
+
+            return ServiceResult(plate_menu)
+        except Exception as e:
+            print(f"An error occurred: {e}")
             return ServiceResult(AppExceptionCase(500, e))

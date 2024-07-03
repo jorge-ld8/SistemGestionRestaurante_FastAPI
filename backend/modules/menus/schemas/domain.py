@@ -3,6 +3,7 @@ from pydantic import BaseModel, Field
 from modules.plates.schemas.domain import Plate
 
 class PlateMenu(BaseModel):
+    id: int
     plate: Plate
     unit_price: int = Field(ge=0)
 
