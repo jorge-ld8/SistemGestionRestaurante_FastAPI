@@ -8,8 +8,7 @@ from fastapi import status
 from shared.utils.service_result import ServiceResult, handle_result
 from modules.users.user_auth.auth_decorators import authenticate_user, authorize_user
 from modules.users.user_auth.auth_dependencies import get_current_user
-
-from models.user import User
+from models import User
 
 router = APIRouter()
 

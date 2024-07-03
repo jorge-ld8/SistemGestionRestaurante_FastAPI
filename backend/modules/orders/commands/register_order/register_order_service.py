@@ -13,6 +13,9 @@ from modules.waiters.repositories.waiter_repository import WaiterRepository
 from modules.menus.repositories.write_model.menu_wm_repository import MenuWriteModelRepository
 from modules.menus.schemas.domain import PlateMenu
 
+from modules.ingredients.repositories.ingredient_repository import IngredientRepository
+from modules.plates.repositories.write_model.plate_wm_repository import PlateWriteModelRepository
+
 
 class RegisterOrderService:
 
@@ -21,13 +24,17 @@ class RegisterOrderService:
                  user_repo: UserRepository,
                  waiter_repo: WaiterRepository,
                  chef_repo: ChefRepository,
-                 menu_repo: MenuWriteModelRepository
+                 menu_repo: MenuWriteModelRepository,
+                 plate_repo: PlateWriteModelRepository,
+                 ingredient_repo: IngredientRepository
                  ):
         self.order_repo = order_repo
         self.user_repo = user_repo
         self.waiter_repo = waiter_repo
         self.chef_repo = chef_repo
         self.menu_repo = menu_repo
+        self.plate_repo = plate_repo
+        self.ingredient_repo = ingredient_repo
 
     async def register_order(self, order: RegisterOrder) -> ServiceResult:
         try:
@@ -51,6 +58,21 @@ class RegisterOrderService:
             total = 0
             for plate in order.plates:
                 plate_menu: PlateMenu = handle_result(await self.menu_repo.get_plate_menu_by_id(plate.plate_menu_id))
+                plate_ingredients = handle_result(await self.plate_repo.get_plate_ingredients_by_plate_id(plate_menu.plate.id))
+                ing_ids_list = []
+
+                for ingredient in plate_ingredients:
+                    ing_ids_list.append(ingredient.ingredient_id)
+                    # await self.ingredient_repo.adjust_ingredient_stock(ingredient.ingredient)
+
+                ingredients_list = handle_result(await self.ingredient_repo.get_ingredients_by_ids(ing_ids_list))
+                print(ingredients_list[0])
+
+                for index, ingredient in enumerate(ingredients_list):
+                    new_ingredient = ingredient
+                    new_ingredient.stock -= plate_ingredients[index].quantity
+                    await self.ingredient_repo.adjust_ingredient_stock(new_ingredient)
+
                 plate_menu_price = plate_menu.unit_price
                 total += plate_menu_price * plate.quantity
                 order_details_list.append(
