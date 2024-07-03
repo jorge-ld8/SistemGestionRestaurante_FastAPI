@@ -33,6 +33,10 @@ class ChefRepository:
         try:
             chef: ChefModel = self.db.query(ChefModel).filter(and_(ChefModel.chef_id == chef_id,
                                                               ChefModel.is_deleted == False)).one_or_none()
+
+            if chef is None:
+                return ServiceResult(None)
+
             returned_chef = Chef(
                 chef_id=chef_id,
                 name=chef.name,

@@ -34,8 +34,11 @@ class WaiterRepository:
             waiter: WaiterModel = self.db.query(WaiterModel).filter(and_(WaiterModel.waiter_id == waiter_id,
                                                                     WaiterModel.is_deleted == False)).one_or_none()
 
+            if waiter is None:
+                return ServiceResult(None)
+
             returned_waiter = Waiter(
-                waiter_id=waiter.id,
+                waiter_id=waiter_id,
                 name=waiter.name,
                 last_name=waiter.last_name
             )

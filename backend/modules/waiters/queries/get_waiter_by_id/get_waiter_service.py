@@ -10,9 +10,9 @@ class GetWaiterService:
 
     async def get_waiter_by_id(self, waiter_id: int) -> ServiceResult:
         try:
-            waiter_result = await self.repository.get_waiter_by_id(waiter_id)
+            waiter_result = handle_result(await self.repository.get_waiter_by_id(waiter_id))
 
-            if handle_result(waiter_result) is None:
+            if waiter_result is None:
                 return ServiceResult("Waiter not found")
 
             return ServiceResult(waiter_result)
