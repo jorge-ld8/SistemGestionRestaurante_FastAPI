@@ -14,3 +14,6 @@ class RegisterIngredient(IngredientBase):
 
 class UpdateIngredient(IngredientBase):
     pass
+
+class AdjustIngredientStock(BaseModel):
+    stock: float
