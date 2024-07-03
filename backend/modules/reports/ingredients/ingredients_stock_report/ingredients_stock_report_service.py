@@ -11,7 +11,7 @@ class GetIngredientsReportService:
         async def get_ingredients_report(self):
             try:
     
-                ingredients_search_result = await self.ingredientRepository.get_ingredients_report()
+                ingredients_search_result = await self.ingredientRepository.get_ingredients_stock_report()
     
                 ingredients = handle_result(ingredients_search_result)
     
