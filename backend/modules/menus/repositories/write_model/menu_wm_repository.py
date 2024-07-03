@@ -140,9 +140,7 @@ class MenuWriteModelRepository():
             return ServiceResult(AppExceptionCase(500, e))
     
     async def get_plate_menu_by_id(self, plate_menu_id: int) -> ServiceResult:
-
         try:
-
             db_plate_menu = (
             self.db.query(PlateMenuModel)
             .options(

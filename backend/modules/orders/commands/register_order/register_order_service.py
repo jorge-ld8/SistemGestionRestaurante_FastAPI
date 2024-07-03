@@ -10,6 +10,8 @@ from modules.orders.repositories.order_repository import OrderRepository
 from modules.chefs.repositories.chef_repository import ChefRepository
 from modules.users.repositories.user_repository import UserRepository
 from modules.waiters.repositories.waiter_repository import WaiterRepository
+from modules.menus.repositories.write_model.menu_wm_repository import MenuWriteModelRepository
+from modules.menus.schemas.domain import PlateMenu
 
 
 class RegisterOrderService:
@@ -18,14 +20,14 @@ class RegisterOrderService:
                  order_repo: OrderRepository,
                  user_repo: UserRepository,
                  waiter_repo: WaiterRepository,
-                 chef_repo: ChefRepository
-             #   ,plate_repo: PlateRepository
+                 chef_repo: ChefRepository,
+                 menu_repo: MenuWriteModelRepository
                  ):
         self.order_repo = order_repo
         self.user_repo = user_repo
         self.waiter_repo = waiter_repo
         self.chef_repo = chef_repo
-        # self.plate_repo = plate_repo
+        self.menu_repo = menu_repo
 
     async def register_order(self, order: RegisterOrder) -> ServiceResult:
         try:
@@ -42,15 +44,14 @@ class RegisterOrderService:
                 return ServiceResult(AppExceptionCase(404, "The chef does not exist"))
 
             # check if list of plates are available, like next line
-            # TODO: if not self.plate_repo.check_plates_availability(order.plates):
-            #   return ServiceResult(AppExceptionCase(400), "Not all plates are available")
-            # else:
+            if not handle_result(await self.menu_repo.check_plates_availability(order.plates)):
+                return ServiceResult(AppExceptionCase(404, "At least one plate does not have enough stock to be made"))
 
             order_details_list: List[OrderDetail] = []
             total = 0
             for plate in order.plates:
-                # TODO: plate_menu = self.plate_repo.get_latest_plate_menu(plate.plate_id) # {id, price}
-                plate_menu_price = 1
+                plate_menu: PlateMenu = handle_result(await self.menu_repo.get_plate_menu_by_id(plate.plate_menu_id))
+                plate_menu_price = plate_menu.unit_price
                 total += plate_menu_price * plate.quantity
                 order_details_list.append(
                     OrderDetail(

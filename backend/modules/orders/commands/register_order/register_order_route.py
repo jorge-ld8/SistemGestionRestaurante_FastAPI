@@ -10,6 +10,7 @@ from shared.utils.service_result import ServiceResult, handle_result
 from modules.users.repositories.user_repository import UserRepository
 from modules.waiters.repositories.waiter_repository import WaiterRepository
 from modules.chefs.repositories.chef_repository import ChefRepository
+from modules.menus.repositories.write_model.menu_wm_repository import MenuWriteModelRepository
 
 router = APIRouter()
 
@@ -20,7 +21,8 @@ def register_order_service():
     user_repo = UserRepository(db)
     waiter_repo = WaiterRepository(db)
     chef_repo = ChefRepository(db)
-    return RegisterOrderService(order_repo, user_repo, waiter_repo, chef_repo)
+    menu_repo = MenuWriteModelRepository(db)
+    return RegisterOrderService(order_repo, user_repo, waiter_repo, chef_repo, menu_repo)
 
 
 @router.post("/", status_code=status.HTTP_201_CREATED, name="orders:register-order")
