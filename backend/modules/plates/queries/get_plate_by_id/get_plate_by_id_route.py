@@ -15,7 +15,6 @@ router = APIRouter()
 def get_plate_by_id_service():
     db: Session = next(get_db())
     plate_repository = PlateRepository(db)
-    # ingredient_repository = IngredientRepository(db)
     return GetPlateByIdService(plate_repository)
 
 @router.get("/{plate_id}", status_code=status.HTTP_200_OK, name = "plates:get_plate_by_id")
