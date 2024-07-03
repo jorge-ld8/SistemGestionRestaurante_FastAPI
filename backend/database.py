@@ -13,7 +13,7 @@ load_dotenv()
 
 # Create an engine
 # engine = create_engine(os.getenv("DATABASE_URL"))
-engine = create_engine("postgresql://postgres_user:postgres_password@db:5432/postgres_db")
+engine = create_engine("postgresql://postgres:postgres_password@localhost:5432/postgres")
 
 # Create all tables
 # Base.metadata.create_all(engine)
