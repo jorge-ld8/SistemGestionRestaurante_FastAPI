@@ -7,6 +7,10 @@ from modules.plates.schemas.dtos import AdjustIngredientQuantity
 from modules.plates.commands.adjust_ingredient_quantity.adjust_ingredient_quantity_service import AdjustIngredientQuantityService
 from shared.core.db.db_connection import get_db
 from database import Session
+from modules.users.user_auth.auth_decorators import authenticate_user, authorize_user
+from modules.users.user_auth.auth_dependencies import get_current_user
+
+from models import User
 
 from shared.utils.service_result import handle_result
 
@@ -19,11 +23,14 @@ def adjust_ingredient_quantity_service():
     return AdjustIngredientQuantityService(plate_repository, ingredient_repository)
 
 @router.put("/{plate_id}/ingredient/{ingredient_id}", status_code=status.HTTP_200_OK, name = "plates:adjust_ingredient_quantity")
+@authenticate_user()
+@authorize_user(["admin"])
 async def adjust_ingredient_quantity(
     plate_id: int,
     ingredient_id: int,
     quantity: AdjustIngredientQuantity = Body(..., embed=True),
-    service: AdjustIngredientQuantityService = Depends(adjust_ingredient_quantity_service)
+    service: AdjustIngredientQuantityService = Depends(adjust_ingredient_quantity_service),
+    current_user: User = Depends(get_current_user)
 ):
     result = await service.adjust_ingredient_quantity(plate_id, ingredient_id, quantity)
     return handle_result(result)

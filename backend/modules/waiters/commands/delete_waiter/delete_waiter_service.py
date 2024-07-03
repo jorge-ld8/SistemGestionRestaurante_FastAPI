@@ -20,5 +20,8 @@ class DeleteWaiterService:
         except Exception as e:
             if hasattr(e, 'errors') and callable(e.errors):
                 return ServiceResult(AppExceptionCase(400, e.errors()))
+            
+            if(e.status_code):
+                return ServiceResult(AppExceptionCase(e.status_code, e.msg))
 
             return ServiceResult(AppExceptionCase(500, f"The next error have occurred: {e}"))

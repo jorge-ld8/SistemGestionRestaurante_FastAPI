@@ -16,18 +16,25 @@ class AddPlateToMenuService:
                 plate_search_result = await self.plate_repository.get_plate_basic_info_by_id(dto.plate_id)
                 
                 plate = handle_result(plate_search_result)
-
+               
                 if plate is None:
                     return ServiceResult(AppExceptionCase(404, "The plate does not exist"))
                 
+                menu_search_result = await self.menu_repository.get_menu_basic_info(menu_id)
+
+                menu = handle_result(menu_search_result)
+
+                if menu is None:
+                    return ServiceResult(AppExceptionCase(404, "The menu does not exist"))
+                
                 plate_menu = PlateMenu(
-                     id=0,
+                    id=0,
                     plate=plate,
                     unit_price=dto.unit_price,
                 )
                 
                 savingResult = await self.menu_repository.add_plate_to_menu(menu_id, plate_menu)
-                
+
                 if not savingResult.success:
                     handle_result(savingResult)
                 
