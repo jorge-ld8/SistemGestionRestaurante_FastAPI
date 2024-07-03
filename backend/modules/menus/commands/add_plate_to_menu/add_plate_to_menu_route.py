@@ -2,7 +2,7 @@ from fastapi import APIRouter, Body, Depends
 from starlette import status
 
 from modules.menus.repositories.write_model.menu_wm_repository import MenuWriteModelRepository as MenuRepository
-from modules.plates.repositories.plate_repository import PlateRepository
+from modules.plates.repositories.write_model.plate_wm_repository import PlateWriteModelRepository as PlateRepository
 from modules.menus.schemas.dtos import AddPlateToMenu
 from modules.menus.commands.add_plate_to_menu.add_plate_to_menu_service import AddPlateToMenuService
 from shared.core.db.db_connection import get_db

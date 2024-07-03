@@ -6,6 +6,7 @@ from modules.menus.commands.delete_menu.delete_menu_routes import router as dele
 from modules.menus.commands.add_plate_to_menu.add_plate_to_menu_route import router as add_plate_to_menu_router
 from modules.menus.commands.remove_plate_from_menu.remove_plate_from_menu_route import router as remove_plate_from_menu_router
 from modules.menus.queries.get_menu_by_id.get_menu_by_id_route import router as get_menu_by_id_router
+from modules.menus.commands.update_plate_price_of_menu.update_plate_price_of_menu_route import router as update_plate_price_of_menu_router
 
 menus_routes = APIRouter(
     prefix="/menus",
@@ -19,3 +20,4 @@ menus_routes.include_router(delete_menu_router)
 menus_routes.include_router(add_plate_to_menu_router)
 menus_routes.include_router(remove_plate_from_menu_router)
 menus_routes.include_router(get_menu_by_id_router)
+menus_routes.include_router(update_plate_price_of_menu_router)

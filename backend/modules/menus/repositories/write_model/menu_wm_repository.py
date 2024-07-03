@@ -139,6 +139,26 @@ class MenuWriteModelRepository():
             self.db.rollback()
             return ServiceResult(AppExceptionCase(500, e))
     
+    async def update_plate_price_of_menu(self, plate_menu: PlateMenu):
+
+        try:
+            db_plate_menu = self.db.query(PlateMenuModel).filter(PlateMenuModel.plate_menu_id == plate_menu.id).first()
+
+            if db_plate_menu is None:
+                return ServiceResult(AppExceptionCase(404, "The plate does not exist in the menu"))
+            
+            db_plate_menu.unit_price = plate_menu.unit_price
+
+            self.db.commit()
+            self.db.refresh(db_plate_menu)
+
+            return ServiceResult("The plate price have been updated in the menu!!")
+            
+        except Exception as e:
+            print(f"An error occurred: {e}")
+            self.db.rollback()
+            return ServiceResult(AppExceptionCase(500, e))
+
     async def get_plate_menu_by_id(self, plate_menu_id: int) -> ServiceResult:
 
         try:
@@ -150,7 +170,7 @@ class MenuWriteModelRepository():
                 .load_only(PlateModel.plate_id, PlateModel.name)
             )
             .filter(PlateMenuModel.plate_menu_id == plate_menu_id)
-            .one()
+            .first()
             )
             
             if db_plate_menu is None:

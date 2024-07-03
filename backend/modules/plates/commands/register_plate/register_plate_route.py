@@ -2,7 +2,7 @@ from fastapi import APIRouter, Body, Depends
 from starlette import status
 
 from modules.ingredients.repositories.ingredient_repository import IngredientRepository
-from modules.plates.repositories.plate_repository import PlateRepository
+from modules.plates.repositories.write_model.plate_wm_repository import PlateWriteModelRepository as PlateRepository
 from modules.plates.schemas.dtos import RegisterPlate
 from modules.plates.commands.register_plate.register_plate_service import RegisterPlateService
 from shared.core.db.db_connection import get_db

@@ -11,7 +11,7 @@ class GetMenuByIdService:
         try:
             
             menu_search_result = await self.repository.get_menu_by_id(menu_id)
-
+           
             menu = handle_result(menu_search_result)
             
             if menu is None:
@@ -22,5 +22,8 @@ class GetMenuByIdService:
         except Exception as e:
             if(hasattr(e, 'errors') and callable(e.errors)):
                 return ServiceResult(AppExceptionCase(400, e.errors()))
+            
+            if(e.status_code):
+                return ServiceResult(AppExceptionCase(e.status_code, e.msg))
             
             return ServiceResult(AppExceptionCase(500, f"The next error have ocurred: {e}"))

@@ -1,7 +1,7 @@
 from shared.utils.service_result import ServiceResult, handle_result
 from modules.plates.schemas.dtos import AdjustIngredientQuantity
 from modules.plates.schemas.domain import Plate, PlateIngredient
-from modules.plates.repositories.plate_repository import PlateRepository
+from modules.plates.repositories.write_model.plate_wm_repository import PlateWriteModelRepository as PlateRepository
 from modules.ingredients.repositories.ingredient_repository import IngredientRepository
 from shared.utils.app_exceptions import AppExceptionCase
 
