@@ -28,7 +28,7 @@ class MenuReadModelRepository():
                     .load_only(IngredientModel.ingredient_id, IngredientModel.name, IngredientModel.description)
                 )
                 .filter(MenuModel.menu_id == menu_id, MenuModel.is_deleted == False)
-                .one()
+                .first()
             )
 
             return ServiceResult(menu)

@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Body, Depends
 from starlette import status
 
-from modules.plates.repositories.plate_repository import PlateRepository
+from modules.plates.repositories.write_model.plate_wm_repository import PlateWriteModelRepository as PlateRepository
 from modules.plates.schemas.dtos import UpdatePlate
 from modules.plates.commands.update_plate.update_plate_service import UpdatePlateService
 from shared.core.db.db_connection import get_db

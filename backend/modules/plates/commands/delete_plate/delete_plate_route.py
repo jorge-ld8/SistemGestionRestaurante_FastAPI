@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends
 from starlette import status
 
-from modules.plates.repositories.plate_repository import PlateRepository
+from modules.plates.repositories.write_model.plate_wm_repository import PlateWriteModelRepository as PlateRepository
 from modules.plates.commands.delete_plate.delete_plate_service import DeletePlateService
 from shared.core.db.db_connection import get_db
 from database import Session

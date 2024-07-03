@@ -3,7 +3,7 @@ from shared.utils.app_exceptions import AppExceptionCase
 from modules.menus.schemas.domain import PlateMenu
 from modules.menus.schemas.dtos import AddPlateToMenu
 from modules.menus.repositories.write_model.menu_wm_repository import MenuWriteModelRepository as MenuRepository
-from modules.plates.repositories.plate_repository import PlateRepository
+from modules.plates.repositories.write_model.plate_wm_repository import PlateWriteModelRepository as PlateRepository
 
 class AddPlateToMenuService:
         

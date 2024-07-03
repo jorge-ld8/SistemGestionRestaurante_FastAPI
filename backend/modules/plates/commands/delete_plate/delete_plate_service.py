@@ -1,5 +1,5 @@
 from shared.utils.service_result import ServiceResult, handle_result
-from modules.plates.repositories.plate_repository import PlateRepository
+from modules.plates.repositories.write_model.plate_wm_repository import PlateWriteModelRepository as PlateRepository
 from shared.utils.app_exceptions import AppExceptionCase
 
 class DeletePlateService:

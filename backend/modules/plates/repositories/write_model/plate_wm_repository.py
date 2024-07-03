@@ -6,7 +6,7 @@ from modules.plates.schemas.domain import Plate, PlateIngredient
 from models.plate import Plate as PlateModel
 from models.plate_ingredient import PlateIngredient as PlateIngredientModel
 
-class PlateRepository():
+class PlateWriteModelRepository():
     def __init__(self, db: Session):
         self.db = db
     
