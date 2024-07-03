@@ -1,12 +1,16 @@
 from sqlalchemy.orm import Session, joinedload, load_only
+from typing import List
 
 from shared.utils.service_result import ServiceResult
 from shared.utils.app_exceptions import AppExceptionCase
+from modules.menus.schemas.dtos import CheckPlateAvailability
 from modules.menus.schemas.domain import Menu, PlateMenu
 from modules.menus.schemas.domain import Plate
 from models.menu import Menu as MenuModel
 from models.plate_menu import PlatesMenu as PlateMenuModel
 from models.plate import Plate as PlateModel
+from models.plate_ingredient import PlateIngredient as PlateIngredientModel
+from models.ingredient import Ingredient as IngredientModel
 
 class MenuWriteModelRepository():
 
@@ -159,6 +163,51 @@ class MenuWriteModelRepository():
             )
 
             return ServiceResult(plate_menu)
+        except Exception as e:
+            print(f"An error occurred: {e}")
+            return ServiceResult(AppExceptionCase(500, e))
+        
+    async def check_plates_availability(self, plates: List[CheckPlateAvailability]) -> ServiceResult:
+        
+        try:
+
+            for plate in plates:
+                plate_menu_id = plate.plate_menu_id
+
+                db_plate_menu = (
+                    self.db.query(PlateMenuModel)
+                    .options(
+                        joinedload(PlateMenuModel.plate)
+                        .joinedload(PlateModel.ingredients)
+                        .load_only(PlateIngredientModel.ingredient_id, PlateIngredientModel.quantity)
+                    )
+                    .filter(PlateMenuModel.plate_menu_id == plate_menu_id)
+                    .one()
+                )
+                
+                if db_plate_menu is None:
+                    return ServiceResult(AppExceptionCase(404, f"The plate menu with id {plate_menu_id} does not exist"))
+
+                ingredients = db_plate_menu.plate.ingredients
+
+                if ingredients is None or len(ingredients) == 0:
+                    return ServiceResult(AppExceptionCase(404, f"The plate menu with id {plate_menu_id} does not have ingredients"))
+
+                for ingredient in ingredients:
+                    db_ingredient = self.db.query(IngredientModel).filter(
+                    (IngredientModel.ingredient_id == ingredient.ingredient_id) &
+                    (IngredientModel.is_deleted == False)
+                    ).first()
+
+                    if db_ingredient is None:
+                        return ServiceResult(AppExceptionCase(404, f"The ingredient with id {ingredient.ingredient_id} does not exist"))
+                    
+                    if db_ingredient.stock < ingredient.quantity * plate.quantity:
+                        print(f"The ingredient {db_ingredient.name} with id {ingredient.ingredient_id} does not have enough stock. Needs {ingredient.quantity * plate.quantity} and has {db_ingredient.stock}")
+                        return ServiceResult(False)
+
+            
+            return ServiceResult(True)
         except Exception as e:
             print(f"An error occurred: {e}")
             return ServiceResult(AppExceptionCase(500, e))

@@ -12,3 +12,7 @@ class UpdateMenu(BaseModel):
 class AddPlateToMenu(BaseModel):
     plate_id: int
     unit_price: int
+
+class CheckPlateAvailability(BaseModel):
+    plate_menu_id: int
+    quantity: int
