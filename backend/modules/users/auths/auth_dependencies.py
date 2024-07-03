@@ -1,14 +1,13 @@
 from databases import Database
 from fastapi import Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordBearer
-
 from modules.users.auths.auth_services import AuthService
 from modules.users.auths.auth_exceptions import AuthExceptions
 from modules.users.users.user_repositories import UserRepository
 from modules.users.users.user_schemas import UserInDB
 from shared.core.config import SECRET_KEY, API_PREFIX
 from shared.core.db.db_dependencies import get_database
-
+from models import User
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl=f"{API_PREFIX}/users/login/")
 
@@ -29,9 +28,9 @@ async def get_user_from_token(
     return user
 
 
-def get_current_active_user(
-    current_user: UserInDB = Depends(get_user_from_token),
-) -> UserInDB | None:
+def get_current_user(
+    current_user: User = Depends(get_user_from_token),
+) -> User | None:
     if not current_user:
         raise AuthExceptions.AuthUnauthorizedException()
     if not current_user.is_active:

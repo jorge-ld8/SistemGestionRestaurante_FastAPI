@@ -13,10 +13,12 @@ class RegisterUserService:
     async def register_user(self, user: RegisterUser) -> ServiceResult:
         try:
             new_user = User(
+                user_id=0,
                 name=user.name,
                 last_name=user.last_name,
                 user_name=user.user_name,
-                role=user.role
+                role=user.role,
+                password=user.password
             )
 
             saving_result = await self.repository.register_user(new_user)

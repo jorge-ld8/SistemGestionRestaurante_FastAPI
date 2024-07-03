@@ -5,7 +5,7 @@ from uuid import UUID
 from databases import Database
 from fastapi import APIRouter, Body, Depends, Path, status
 from loguru import logger
-from modules.users.auths.auth_dependencies import get_current_active_user
+from modules.users.auths.auth_dependencies import get_current_user
 from modules.users.auths.auth_exceptions import AuthExceptions
 from modules.users.roles.role_schemas import (
     RoleCreate,
@@ -36,7 +36,7 @@ router = APIRouter(
 async def create_role(
     role: RoleCreate = Body(..., embed=True),
     db: Database = Depends(get_database),
-    current_user: UserInDB = Depends(get_current_active_user),
+    current_user: UserInDB = Depends(get_current_user),
 ) -> ServiceResult:
     if not is_authorized(current_user, "roles:create-role"):
         return handle_result(ServiceResult(AuthExceptions.AuthUnauthorizedException()))
@@ -56,7 +56,7 @@ async def get_roles_list(
     order: str = "",
     direction: str = "",
     db: Database = Depends(get_database),
-    current_user: UserInDB = Depends(get_current_active_user),
+    current_user: UserInDB = Depends(get_current_user),
 ) -> ServiceResult:
     if not is_authorized(current_user, "roles:roles_list"):
         return ServiceResult(AuthExceptions.AuthUnauthorizedException())
@@ -76,7 +76,7 @@ async def get_roles_list(
 async def get_role_by_id(
     id: UUID,
     db: Database = Depends(get_database),
-    current_user: UserInDB = Depends(get_current_active_user),
+    current_user: UserInDB = Depends(get_current_user),
 ) -> ServiceResult:
     if not is_authorized(current_user, "roles:get-role-by-id"):
         return handle_result(ServiceResult(AuthExceptions.AuthUnauthorizedException()))
@@ -90,7 +90,7 @@ async def update_role_by_id(
     id: UUID = Path(..., title="The id of the role to update"),
     role_update: RoleUpdate = Body(..., embed=True),
     db: Database = Depends(get_database),
-    current_user: UserInDB = Depends(get_current_active_user),
+    current_user: UserInDB = Depends(get_current_user),
 ) -> ServiceResult:
     if not is_authorized(current_user, "roles:update-role-by-id"):
         return handle_result(ServiceResult(AuthExceptions.AuthUnauthorizedException()))
@@ -106,7 +106,7 @@ async def update_activate_role_by_id(
     id: UUID = Path(..., title="The id of the role to update is_active"),
     role_update: RoleUpdateActive = Body(..., embed=True),
     db: Database = Depends(get_database),
-    current_user: UserInDB = Depends(get_current_active_user),
+    current_user: UserInDB = Depends(get_current_user),
 ) -> ServiceResult:
     if not is_authorized(current_user, "roles:update-activate-role-by-id"):
         return handle_result(ServiceResult(AuthExceptions.AuthUnauthorizedException()))
@@ -121,7 +121,7 @@ async def update_activate_role_by_id(
 async def delete_role_by_id(
     id: UUID = Path(..., title="The id of the role to update is_active"),
     db: Database = Depends(get_database),
-    current_user: UserInDB = Depends(get_current_active_user),
+    current_user: UserInDB = Depends(get_current_user),
 ) -> ServiceResult:
     if not is_authorized(current_user, endpoint="roles:delete-role-by-id"):
         return handle_result(ServiceResult(AuthExceptions.AuthUnauthorizedException()))

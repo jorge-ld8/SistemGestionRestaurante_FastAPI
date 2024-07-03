@@ -14,6 +14,7 @@ from modules.users.auths.auth_schemas import (
 from modules.users.auths.auth_services import AuthService
 from shared.core.db.db_dependencies import get_database
 from shared.utils.service_result import ServiceResult, handle_result
+from shared.core.db.db_connection import get_db
 
 router = APIRouter(
     responses={404: {"description": "Not found"}},
@@ -23,7 +24,7 @@ router = APIRouter(
 @router.post("/login", response_model=AuthResponse, name="auth:login")
 async def login(
     form_data: OAuth2PasswordRequestForm = Depends(OAuth2PasswordRequestForm),
-    db: Database = Depends(get_database),
+    db: Database = Depends(get_db),
 ) -> ServiceResult:
     result = await AuthService().authenticate_user(
         username=form_data.username, password=form_data.password, db=db

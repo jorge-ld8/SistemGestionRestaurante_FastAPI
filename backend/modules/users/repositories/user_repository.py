@@ -1,3 +1,4 @@
+from passlib.context import CryptContext
 from sqlalchemy import and_
 from sqlalchemy.orm import Session
 from starlette import status
@@ -5,6 +6,8 @@ from shared.utils.service_result import ServiceResult, handle_result
 from shared.utils.app_exceptions import AppExceptionCase
 from modules.users.schemas.domain import User
 from models.user import User as UserModel
+
+pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
 
 class UserRepository:
@@ -19,6 +22,7 @@ class UserRepository:
                 last_name=user.last_name,
                 user_name=user.user_name,
                 role=user.role,
+                password=pwd_context.hash(user.password)
             )
 
             self.db.add(db_user)
@@ -91,3 +95,12 @@ class UserRepository:
             print(f"An error occurred: {e}")
             self.db.rollback()
             return ServiceResult(AppExceptionCase(500, str(e)))
+
+    async def get_user_by_username(self, username: str) -> ServiceResult:
+        record = self.db.query(UserModel).filter(and_(UserModel.user_name == username,
+                                                            UserModel.is_deleted == False)).one_or_none()
+
+        if not record:
+            return ServiceResult(None)
+
+        return ServiceResult(record)

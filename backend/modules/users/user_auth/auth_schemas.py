@@ -35,11 +35,10 @@ class AccessToken(BaseSchema):
 
 
 class AuthResponse(AccessToken):
-    id: UUID
+    id: int
     fullname: str
     username: str
     role: str
-    permissions: List[str]
 
 
 class AuthEmailRecoverPsw(BaseSchema):

@@ -11,6 +11,7 @@ class User(Base):
     name = Column(String, nullable=False)
     last_name = Column(String, nullable=False)
     role = Column(String, nullable=False)
+    password = Column(String)
     is_deleted = Column(Boolean, default=False)
 
     orders = relationship("Order", back_populates="user")

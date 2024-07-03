@@ -4,7 +4,7 @@ from uuid import UUID
 from databases import Database
 from fastapi import APIRouter, Body, Depends, Path, status
 from loguru import logger
-from modules.users.auths.auth_dependencies import get_current_active_user
+from modules.users.auths.auth_dependencies import get_current_user
 from modules.users.auths.auth_exceptions import AuthExceptions
 from modules.users.users.user_schemas import (
     UserActivate,
@@ -35,7 +35,7 @@ router = APIRouter(
 async def create_user(
     user: UserCreate = Body(..., embed=True),
     db: Database = Depends(get_database),
-    current_user: UserInDB = Depends(get_current_active_user),
+    current_user: UserInDB = Depends(get_current_user),
 ) -> ServiceResult:
     if not is_authorized(current_user, "users:create-user"):
         return handle_result(ServiceResult(AuthExceptions.AuthUnauthorizedException()))
@@ -52,7 +52,7 @@ async def create_user(
 async def get_user_by_id(
     id: UUID = Path(..., title="The id of the user to get"),
     db: Database = Depends(get_database),
-    current_user: UserInDB = Depends(get_current_active_user),
+    current_user: UserInDB = Depends(get_current_user),
 ) -> ServiceResult:
     if not is_authorized(current_user, "users:get-user-by-id"):
         return handle_result(ServiceResult(AuthExceptions.AuthUnauthorizedException()))
@@ -69,7 +69,7 @@ async def get_users_list(
     order: str = "",
     direction: str = "",
     db: Database = Depends(get_database),
-    current_user: UserInDB = Depends(get_current_active_user),
+    current_user: UserInDB = Depends(get_current_user),
 ) -> ServiceResult:
     if not is_authorized(current_user, "users:users_list"):
         return handle_result(ServiceResult(AuthExceptions.AuthUnauthorizedException()))
@@ -89,7 +89,7 @@ async def update_user_by_id(
     id: UUID = Path(..., title="The id of the user to update"),
     user_update: UserUpdate = Body(..., embed=True),
     db: Database = Depends(get_database),
-    current_user: UserInDB = Depends(get_current_active_user),
+    current_user: UserInDB = Depends(get_current_user),
 ) -> ServiceResult:
     if not is_authorized(current_user, "users:update-user-by-id"):
         return handle_result(ServiceResult(AuthExceptions.AuthUnauthorizedException()))
@@ -105,7 +105,7 @@ async def activate_user_by_id(
     id: UUID = Path(..., title="The id of the user to update"),
     user_update: UserActivate = Body(..., embed=True),
     db: Database = Depends(get_database),
-    current_user: UserInDB = Depends(get_current_active_user),
+    current_user: UserInDB = Depends(get_current_user),
 ) -> ServiceResult:
     if not is_authorized(current_user, "users:activate-user-by-id"):
         return handle_result(ServiceResult(AuthExceptions.AuthUnauthorizedException()))
@@ -120,7 +120,7 @@ async def activate_user_by_id(
 async def delete_user_by_id(
     id: UUID = Path(..., title="The id of the user to delete"),
     db: Database = Depends(get_database),
-    current_user: UserInDB = Depends(get_current_active_user),
+    current_user: UserInDB = Depends(get_current_user),
 ) -> ServiceResult:
     if not is_authorized(current_user, "users:delete-user-by-id"):
         return handle_result(ServiceResult(AuthExceptions.AuthUnauthorizedException()))
@@ -134,7 +134,7 @@ async def change_password_by_id(
     id: UUID = Path(..., title="The id of the user to update"),
     psw_update: str = Body(..., embed=True),
     db: Database = Depends(get_database),
-    current_user: UserInDB = Depends(get_current_active_user),
+    current_user: UserInDB = Depends(get_current_user),
 ) -> ServiceResult:
     """
     Un usuario va a poder cambiar su propio password

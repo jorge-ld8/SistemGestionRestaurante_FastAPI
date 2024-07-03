@@ -1,4 +1,4 @@
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, constr
 
 
 class User(BaseModel):
@@ -7,3 +7,4 @@ class User(BaseModel):
     name: str = Field(min_length=3, max_length=50)
     last_name: str = Field(min_length=3, max_length=50)
     role: str = Field(min_length=5, max_length=30)
+    password: str

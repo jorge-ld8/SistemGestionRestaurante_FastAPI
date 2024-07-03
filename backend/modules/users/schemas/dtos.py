@@ -14,6 +14,7 @@ class RegisterUser(UserBase):
     last_name: str
     user_name: str
     role: str
+    password: str
 
 
 class UpdateUser(UserBase):
